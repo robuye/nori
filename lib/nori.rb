@@ -4,6 +4,7 @@ require "nori/nodes"
 require "date"
 require "time"
 require "bigdecimal"
+require 'stringio'
 
 require "nori/string_with_attributes"
 require "nori/string_io_file"

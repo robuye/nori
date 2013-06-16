@@ -29,7 +29,7 @@ class Nori
               stack.last.add_child(last)
             end
           when :text, :cdata
-            stack.last.add_text(event[1])
+            stack.last.add_text(event[1]) unless stack.empty? #REXML would consider new line character before the XML starts as an element
           end
         end
         stack.length > 0 ? stack.pop.to_hash : {}

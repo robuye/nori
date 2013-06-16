@@ -22,7 +22,7 @@ class Nori
 
 
       def self.build(value, attrs, opts = {})
-        type = TYPECASTS.keys.include?(attrs['type']) ?
+        type = TYPECASTS[attrs['type']] ?
           attrs.delete('type') : attrs['type']
 
         if opts[:advanced_typecasting]
@@ -38,10 +38,10 @@ class Nori
 
       def self.guess_type(value)
         case 
-        when value.match(XS_DATE)      then DateNode
-        when value.match(XS_DATE_TIME) then DateTimeNode
-        when value.match(XS_TIME)      then TimeNode
-        when value.match(XS_BOOLEAN)   then BooleanNode
+        when value =~ XS_DATE      then DateNode
+        when value =~ XS_DATE_TIME then DateTimeNode
+        when value =~ XS_TIME      then TimeNode
+        when value =~ XS_BOOLEAN   then BooleanNode
         else TextNode
         end
       end

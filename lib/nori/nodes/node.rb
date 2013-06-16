@@ -30,7 +30,7 @@ class Nori
       private
 
       def build
-        nodes = [group_by_key(nested_nodes.map(&:to_hash))].flatten.compact
+        nodes = [group_by_key(nested_nodes.flat_map(&:to_hash))].compact
         val = render_value
 
         if nodes.empty? && !val.nil?   #make attributes accessible via val (issue #5)
