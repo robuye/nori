@@ -4,7 +4,7 @@ describe Nori do
 
   describe "PARSERS" do
     it "should return a Hash of parser details" do
-      Nori::PARSERS.should == { :rexml => "REXML", :nokogiri => "Nokogiri" }
+      Nori::PARSERS.should == { rexml: 'REXML', nokogiri:  "Nokogiri" }
     end
   end
 

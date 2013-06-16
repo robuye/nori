@@ -1,13 +1,3 @@
-require "rexml/text"
-require "rexml/document"
-require "date"
-require "time"
-require "yaml"
-require "bigdecimal"
-
-require "nori/string_with_attributes"
-require "nori/string_io_file"
-
 class Nori
 
   # This is a slighly modified version of the XMLUtilityNode from
