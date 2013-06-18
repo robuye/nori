@@ -1,8 +1,17 @@
 class Nori
   module Nodes
-    class TimeNode < ValueNode
+    class TimeNode < DelegateClass(Time)
+      attr_reader :value, :attributes
+
+      def initialize(value, attributes, opts={})
+        @value = value
+        @attributes = attributes
+        @options = opts
+        super(Time.parse(value))
+      end
+
       def render
-        Time.parse(@value).utc
+        self.utc
       end
     end
   end

@@ -1,3 +1,4 @@
+require "delegate"
 require "nori/version"
 require "nori/core_ext"
 require "nori/nodes"
@@ -6,7 +7,6 @@ require "time"
 require "bigdecimal"
 require 'stringio'
 
-require "nori/string_with_attributes"
 require "nori/string_io_file"
 require "nori/utils"
 

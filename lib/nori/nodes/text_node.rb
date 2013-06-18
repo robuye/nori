@@ -1,11 +1,21 @@
 class Nori
   module Nodes
-    class TextNode < ValueNode
+    class TextNode < DelegateClass(String)
+      attr_reader :value, :attributes
+
+      def initialize(value, attributes, opts={})
+        @value = value.strip
+        @attributes = attributes
+        @options = opts
+        super(@value)
+      end
+
       def render
-        text = StringWithAttributes.new(@value.strip)
-        return nil if text.length == 0
-        text.attributes = @attributes
-        text
+        if @value.length == 0
+          NilNode.new(@value, @attributes, @options).render
+        else
+          self
+        end
       end
     end
   end

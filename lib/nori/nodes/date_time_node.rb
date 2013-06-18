@@ -1,8 +1,17 @@
 class Nori
   module Nodes
-    class DateTimeNode < ValueNode
+    class DateTimeNode < DelegateClass(DateTime)
+      attr_reader :value, :attributes
+
+      def initialize(value, attributes, opts={})
+        @value = value
+        @attributes = attributes
+        @options = opts
+        super(DateTime.parse(value))
+      end
+
       def render
-        DateTime.parse(@value)
+        self
       end
     end
   end
