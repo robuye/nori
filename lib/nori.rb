@@ -1,11 +1,12 @@
 require "delegate"
-require "nori/version"
-require "nori/core_ext"
-require "nori/nodes"
 require "date"
 require "time"
 require "bigdecimal"
 require 'stringio'
+
+require "nori/version"
+require "nori/core_ext"
+require "nori/nodes"
 
 require "nori/string_io_file"
 require "nori/utils"
