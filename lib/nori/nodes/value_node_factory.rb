@@ -28,16 +28,12 @@ class Nori
         if opts[:advanced_typecasting]
           (TYPECASTS[type] || guess_type(value)).new(value, attrs, opts)
         else
-          klass(type).new(value, attrs, opts)
+          (TYPECASTS[type] || TextNode).new(value, attrs, opts)
         end
       end
 
-      def self.klass(type)
-        TYPECASTS[type] || TextNode
-      end
-
       def self.guess_type(value)
-        case 
+        case
         when value =~ XS_DATE      then DateNode
         when value =~ XS_DATE_TIME then DateTimeNode
         when value =~ XS_TIME      then TimeNode

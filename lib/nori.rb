@@ -8,9 +8,9 @@ require 'stringio'
 
 require "nori/string_with_attributes"
 require "nori/string_io_file"
+require "nori/utils"
 
 class Nori
-
   def self.hash_key(name, options = {})
     name = name.tr("-", "_")
     name = name.split(":").last if options[:strip_namespaces]
@@ -66,5 +66,4 @@ class Nori
                            "Available options are: #{available_options.inspect}"
     end
   end
-
 end
