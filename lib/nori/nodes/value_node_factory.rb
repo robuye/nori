@@ -11,8 +11,8 @@ class Nori
         'file'         => FileNode,
         'float'        => FloatNode,
         'integer'      => IntegerNode,
-        'time'         => TimeNode,
-        'string'       => StringNode
+        'string'       => StringNode,
+        'time'         => TimeNode
       }
 
       XS_DATE = /\A[-]?\d{4}-\d{2}-\d{2}[Z\-\+]?\d*:?\d*\Z/

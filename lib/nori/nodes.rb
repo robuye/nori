@@ -1,7 +1,8 @@
 require "nori/nodes/node"
-require "nori/nodes/value_node"
 
 require "nori/nodes/base64_node"
+require "nori/nodes/false_node"
+require "nori/nodes/true_node"
 require "nori/nodes/boolean_node"
 require "nori/nodes/date_node"
 require "nori/nodes/date_time_node"

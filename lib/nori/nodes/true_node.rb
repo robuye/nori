@@ -1,13 +1,13 @@
 class Nori
   module Nodes
-    class IntegerNode < DelegateClass(Integer)
+    class TrueNode < DelegateClass(TrueClass)
       attr_reader :value, :attributes
 
       def initialize(value, attributes, opts={})
         @value = value
         @attributes = attributes
         @options = opts
-        super(Integer(value))
+        super(true)
       end
 
       def render

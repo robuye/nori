@@ -1,8 +1,17 @@
 class Nori
   module Nodes
-    class DecimalNode < ValueNode
+    class DecimalNode < DelegateClass(BigDecimal)
+      attr_reader :value, :attributes
+
+      def initialize(value, attributes, opts={})
+        @value = value
+        @attributes = attributes
+        @options = opts
+        super(BigDecimal.new(value))
+      end
+
       def render
-        @value.nil? ? nil : BigDecimal(@value.to_s)
+        self
       end
     end
   end

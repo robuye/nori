@@ -230,12 +230,12 @@ describe Nori do
 
       it "should typecast a true boolean" do
         xml = "<tag type='boolean'>true</tag>"
-        parse(xml)['tag'].should be(true)
+        parse(xml)['tag'].should be_true
       end
 
       it "should typecast a false boolean" do
         ["false"].each do |w|
-          parse("<tag type='boolean'>#{w}</tag>")['tag'].should be(false)
+          parse("<tag type='boolean'>#{w}</tag>")['tag'].should be_false
         end
       end
 
@@ -586,7 +586,6 @@ describe Nori do
           'notes' => "",
           'illustration' => "babe.png"
         }
-
         parse(bacon_xml)["bacon"].should == expected_bacon_hash
       end
 

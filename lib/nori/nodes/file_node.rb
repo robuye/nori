@@ -1,14 +1,18 @@
 class Nori
   module Nodes
-    class FileNode < ValueNode
-      def render
-        file = StringIOFile.new((@value || '').unpack('m').first)
-        file.original_filename = original_filename
-        file.content_type = content_type
-        file
+    class FileNode < DelegateClass(StringIO)
+      attr_reader :value, :attributes
+
+      def initialize(value, attributes, opts={})
+        @value = value
+        @attributes = attributes
+        @options = opts
+        super(StringIO.new(value.unpack('m').first))
       end
 
-      private
+      def render
+        self
+      end
 
       def original_filename
         @attributes['name'] || 'untitled'

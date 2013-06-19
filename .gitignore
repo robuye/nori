@@ -3,6 +3,7 @@ doc
 coverage
 *~
 *.gem
+*.swp
 .bundle
 Gemfile.lock
 /.idea
