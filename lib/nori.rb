@@ -8,7 +8,6 @@ require "nori/version"
 require "nori/core_ext"
 require "nori/nodes"
 
-require "nori/string_io_file"
 require "nori/utils"
 
 class Nori
