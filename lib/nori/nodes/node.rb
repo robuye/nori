@@ -36,6 +36,7 @@ class Nori
         engine.render(self)
       end
 
+      #copy of Utils (used in NilNode aswell)
       def render_attributes
         hash = attributes.inject({}) do |memo, (k,v)|
           memo[Utils.convert_attribute_name("@#{k}", options[:convert_tags_to])] = v

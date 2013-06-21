@@ -333,7 +333,6 @@ describe Nori do
       end
 
       it "should properly handle nil values (ActiveSupport Compatible)" do
-        pending "makes no sense imo, drop it"
         topic_xml = <<-EOT
           <topic>
             <title></title>
@@ -486,7 +485,6 @@ describe Nori do
       end
 
       it "should handle an emtpy array (ActiveSupport Compatible)" do
-        pending "not worth it"
         blog_xml = <<-XML
           <blog>
             <posts type="array"></posts>
@@ -497,7 +495,6 @@ describe Nori do
       end
 
       it "should handle empty array with whitespace from xml (ActiveSupport Compatible)" do
-        pending "not worth it"
         blog_xml = <<-XML
           <blog>
             <posts type="array">
@@ -509,7 +506,6 @@ describe Nori do
       end
 
       it "should handle array with one entry from_xml (ActiveSupport Compatible)" do
-        pending "not worth it"
         blog_xml = <<-XML
           <blog>
             <posts type="array">
@@ -522,7 +518,6 @@ describe Nori do
       end
 
       it "should handle array with multiple entries from xml (ActiveSupport Compatible)" do
-        pending "not worth it"
         blog_xml = <<-XML
           <blog>
             <posts type="array">
@@ -603,15 +598,15 @@ describe Nori do
         parse(product_xml)["product"].should == expected_product_hash
       end
 
-      it "should handle unescaping from xml (ActiveResource Compatible)" #do
-#        xml_string = '<person><bare-string>First &amp; Last Name</bare-string><pre-escaped-string>First &amp;amp; Last Name</pre-escaped-string></person>'
-#        expected_hash = {
-#          'bare_string'        => 'First & Last Name',
-#          'pre_escaped_string' => 'First &amp; Last Name'
-#        }
-#
-#        parse(xml_string)['person'].should == expected_hash
-#      end
+      it "should handle unescaping from xml (ActiveResource Compatible)" do
+        xml_string = '<person><bare-string>First &amp; Last Name</bare-string><pre-escaped-string>First &amp;amp; Last Name</pre-escaped-string></person>'
+        expected_hash = {
+          'bare_string'        => 'First & Last Name',
+          'pre_escaped_string' => 'First &amp; Last Name'
+        }
+
+        parse(xml_string)['person'].should == expected_hash
+      end
 
       it "handle an empty xml string" do
         parse('').should == {}

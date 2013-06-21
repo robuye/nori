@@ -15,7 +15,7 @@ class Nori
       end
 
       def render
-        attributes.empty? ? self : attributes
+        attributes.empty? ? self : Utils.render_attributes(attributes)
       end
     end
   end

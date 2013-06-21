@@ -21,10 +21,16 @@ class Nori
       private
 
       def render_empty(node)
+        #this is special case when node has NIL type. Source:
+        #See: http://stackoverflow.com/questions/7238254/xml-what-is-this-null-or-empty-element
+        nil_att = Utils.filter_namespaces(node.attributes).find{|h| h[:name] == "nil" && h[:value] == 'true'}
+        if nil_att
+          node.attributes.delete("#{nil_att[:namespace]}#{nil_att[:name]}")
+          { node.name => Nodes::NilNode.new(nil, {}, node.options).render }
         #this is special case when node has no content but has type specified
         #we try to cast empty value into this type
-        if node.attributes['type']
-          { node.name => Nodes::ValueNodeFactory.build('', node.attributes, node.options) }
+        elsif node.attributes['type']
+          { node.name => Nodes::ValueNodeFactory.build('', node.attributes, node.options).render }
         else
           { node.name => node.render_attributes }
         end
