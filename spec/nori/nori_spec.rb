@@ -410,7 +410,6 @@ describe Nori do
       end
 
       it "should handle multiple records (ActiveSupport Compatible)" do
-        pending "not worth it"
         topics_xml = <<-EOT
           <topics type="array">
             <topic>
@@ -450,7 +449,7 @@ describe Nori do
           'replies_count' => 0,
           'replies_close_in' => 2592000000,
           'written_on' => Date.new(2003, 7, 16),
-          'viewed_at' => Time.utc(2003, 7, 16, 9, 28),
+          'viewed_at' => DateTime.parse('2003-07-16T09:28:00+0000'),
           'content' => "Have a nice day",
           'author_email_address' => "david@loudthinking.com",
           'parent_id' => nil

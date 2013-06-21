@@ -54,5 +54,18 @@ class Nori
         { node.name => Nodes::ValueNodeFactory.build(inner_html, node.attributes, node.options).render }
       end
     end
+
+    module Array
+      extend self
+
+      def render(node)
+        node.attributes.delete('type')
+        {
+          node.name => node.nested_nodes.map do |nested|
+                         nested.render[nested.name]
+                       end
+        }
+      end
+    end
   end
 end

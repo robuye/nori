@@ -70,6 +70,8 @@ class Nori
         #REXML parses this as one object
         if (@text_num > 0 && @composite_num > 0) || (@text_num > 1)
           Nori::RenderEngine::HTML 
+        elsif (attributes['type'] == 'array')
+          Nori::RenderEngine::Array
         else
           Nori::RenderEngine::XML
         end

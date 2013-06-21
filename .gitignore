@@ -4,6 +4,7 @@ coverage
 *~
 *.gem
 *.swp
+*.swo
 .bundle
 Gemfile.lock
 /.idea
