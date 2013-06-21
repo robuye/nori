@@ -11,7 +11,7 @@ class Nori
       end
 
       def render
-        self.utc
+        self
       end
     end
   end

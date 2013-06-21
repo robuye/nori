@@ -8,40 +8,37 @@ class Nori
         @name = Nori.hash_key(name, options) #DRY it (see #undesherize_attributes)
         @nested_nodes = []
         @attributes = Utils.undasherize_keys(attributes)
-        @value = ''
+        
+        #keep track on number of nodes to choose whatever we should switch rendering engine
+        @composite_num = 0
+        @text_num  = 0
 
         Utils.remove_namespace_attributes!(@attributes) if @options[:delete_namespace_attributes]
       end
 
       def add_child(node)
+        @composite_num = @composite_num + 1
         nested_nodes << node
       end
 
+      # convert text inside tag to value node and add to nested nodes
+      # mark this node as containing text value to render using different engine
       def add_text(text)
-        value << text
-      end
+        if text.strip.length > 0
+          new_node = begin
+                       ValueNodeFactory.build(text, attributes, options)
+                     rescue #would be good idea to handle it somehow better
+                       TextNode.new(text, attributes, options)
+                     end
 
-      def to_hash
-        { @name => render }
+          add_child(new_node)
+          @text_num = @text_num + 1
+          @composite_num = @composite_num - 1
+        end
       end
-
-      private
 
       def render
-        nodes = [Utils.group_by_key(nested_nodes.flat_map(&:to_hash))].compact
-        val = render_value
-
-        if nodes.empty? && !val.nil?   #no child nodes, just value
-          val                #make attributes accessible via val (issue #5)
-        elsif nodes.empty? && val.nil? #no child nodes, no value
-          render_attributes  #refactor it, inconsistent access to attributes? (issue #5)
-        elsif nodes.any? && !val.nil?  #has child nodes and value, join them
-          nodes << val
-        elsif nodes.length == 1        #just 1 element, dont need an array
-          nodes.first.merge(render_attributes || {} )
-        else                           #multiple elements and no text value
-          nodes
-        end
+        engine.render(self)
       end
 
       def render_attributes
@@ -53,10 +50,23 @@ class Nori
         hash.empty? ? nil : hash
       end
 
-      def render_value
-        ValueNodeFactory.build(value, attributes, options).render
-      rescue #would be good idea to handle it somehow better
-        TextNode.new(value, attributes, options).render
+      def to_hash
+        render
+      end
+
+      def to_s
+        string = "<#{name}#{attributes.to_xml_attributes}>"
+        nested_nodes.each do |n|
+          string << n.to_s
+        end
+        string << "</#{name}>"
+      end
+
+      private
+      
+      #for compatibility sake ;(
+      def engine
+        (@text_num > 0 && @composite_num > 0) ? Nori::RenderEngine::HTML : Nori::RenderEngine::XML
       end
     end
   end

@@ -10,6 +10,8 @@ require "nori/nodes"
 
 require "nori/utils"
 
+require "nori/renderer"
+
 class Nori
   def self.hash_key(name, options = {})
     name = name.tr("-", "_")

@@ -4,7 +4,7 @@ class Nori
       attr_reader :value, :attributes
 
       def initialize(value, attributes, opts={})
-        @value = value.strip
+        @value = value
         @attributes = attributes
         @options = opts
         super(@value)

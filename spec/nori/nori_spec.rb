@@ -258,6 +258,7 @@ describe Nori do
       }
 
       it "should unescape html entities" do
+        pending "unfortunetly REXML and Nokogiri produce different results and this test can't work for both parsers"
         xml_entities.each do |k,v|
           xml = "<tag>Some content #{v}</tag>"
           parse(xml)['tag'].should =~ Regexp.new(k)
@@ -288,13 +289,11 @@ describe Nori do
       end
 
       it "should render nested content correctly" do
-        pending "is it really desired behavior?"
         xml = "<root><tag1>Tag1 Content <em><strong>This is strong</strong></em></tag1></root>"
         parse(xml)['root']['tag1'].should == "Tag1 Content <em><strong>This is strong</strong></em>"
       end
 
       it "should render nested content with splshould text nodes correctly" do
-        pending "is it really desired behavior?"
         xml = "<root>Tag1 Content<em>Stuff</em> Hi There</root>"
         parse(xml)['root'].should == "Tag1 Content<em>Stuff</em> Hi There"
       end

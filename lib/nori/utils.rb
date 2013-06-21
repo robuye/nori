@@ -9,14 +9,16 @@ class Nori
     end
 
     def convert_attribute_name(attribute)
-        return attribute unless @options[:convert_tags_to].respond_to?(:call)
-        @options[:convert_tags_to].call(attribute)
+      return attribute unless @options[:convert_tags_to].respond_to?(:call)
+      @options[:convert_tags_to].call(attribute)
     end
 
     def group_by_key(collection)
-        collection.inject do |memo, element|
-          memo.merge(element) {|_, o, n| [o, n].flatten}
-        end
+      collection.inject do |memo, element|
+        memo.merge(element) {|_, o, n| [o, n].flatten}
+      end
+    rescue
+      collection
     end
 
     def remove_namespace_attributes!(attributes)
