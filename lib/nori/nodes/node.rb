@@ -59,9 +59,20 @@ class Nori
 
       private
       
-      #for compatibility sake ;(
       def engine
-        (@text_num > 0 && @composite_num > 0) ? Nori::RenderEngine::HTML : Nori::RenderEngine::XML
+        #Nokogiri parsing tag with escaped special characters splits the input
+        #i.e. "one&amp;two" will be parsed as 3 objects [one, &, two]
+        #according to documentation its not necesarry a bug:
+        # Nokogiri::XML::SAX::Document.characters(string)
+        # "Characters read between a tag. This method might be called multiple
+        #  times given one contiguous string of characters."
+        #
+        #REXML parses this as one object
+        if (@text_num > 0 && @composite_num > 0) || (@text_num > 1)
+          Nori::RenderEngine::HTML 
+        else
+          Nori::RenderEngine::XML
+        end
       end
     end
   end

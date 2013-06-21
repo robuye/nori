@@ -258,7 +258,6 @@ describe Nori do
       }
 
       it "should unescape html entities" do
-        pending "unfortunetly REXML and Nokogiri produce different results and this test can't work for both parsers"
         xml_entities.each do |k,v|
           xml = "<tag>Some content #{v}</tag>"
           parse(xml)['tag'].should =~ Regexp.new(k)
