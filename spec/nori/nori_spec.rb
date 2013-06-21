@@ -303,8 +303,8 @@ describe Nori do
       end
 
       it "should ignore attributes when any child is a text node" do
-        xml = "<root attr1='1'>Stuff</root>"
-        parse(xml).should == { "root" => "Stuff" }
+        xml = "<root attr1='1'>Stuff <em>in italics</em></root>"
+        parse(xml).should == { "root" => "Stuff <em>in italics</em>" }
       end
 
       it "should correctly transform multiple children" do
