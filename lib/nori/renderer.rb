@@ -15,7 +15,7 @@ class Nori
         end
 
       ensure
-        @nodes = nil
+        @nodes = nil #bad code bad, make me threadsafe #FIXME
       end
 
       private
@@ -23,7 +23,6 @@ class Nori
       def render_empty(node)
         #this is special case when node has no content but has type specified
         #we try to cast empty value into this type
-        #but what if we fail? ;( #FIXME
         if node.attributes['type']
           { node.name => Nodes::ValueNodeFactory.build('', node.attributes, node.options) }
         else
@@ -51,13 +50,8 @@ class Nori
 
       def render(node)
         inner_html = node.nested_nodes.join
-        result = begin #This is used in too many places, #DRY ME
-                   Nodes::ValueNodeFactory.build(inner_html, node.attributes, node.options).render
-                 rescue
-                   Nodes::TextNode.new(inner_html, node.attributes, node.options).render
-                 end
 
-        { node.name => result }
+        { node.name => Nodes::ValueNodeFactory.build(inner_html, node.attributes, node.options).render }
       end
     end
   end

@@ -30,6 +30,8 @@ class Nori
         else
           (TYPECASTS[type] || TextNode).new(value, attrs, opts)
         end
+      rescue
+        TextNode.new(value, attrs, opts)
       end
 
       def self.guess_type(value)

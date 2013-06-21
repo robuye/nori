@@ -25,13 +25,8 @@ class Nori
       # mark this node as containing text value to render using different engine
       def add_text(text)
         if text.strip.length > 0
-          new_node = begin
-                       ValueNodeFactory.build(text, attributes, options)
-                     rescue #would be good idea to handle it somehow better
-                       TextNode.new(text, attributes, options)
-                     end
+          add_child( ValueNodeFactory.build(text, attributes, options) )
 
-          add_child(new_node)
           @text_num = @text_num + 1
           @composite_num = @composite_num - 1
         end
