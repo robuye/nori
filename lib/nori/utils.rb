@@ -19,10 +19,8 @@ class Nori
 
     def group_by_key(collection)
       collection.inject do |memo, element|
-        memo.merge(element) {|_, o, n| [o, n].flatten}
+        memo.merge(element) {|_, o, n| [o, n]}
       end
-    rescue #I cry for debugging #FIXME
-      collection
     end
 
     def remove_namespace_attributes!(attributes)

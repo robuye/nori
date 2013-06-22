@@ -4,7 +4,7 @@ class Nori
       extend self
 
       def render(node)
-        @nodes = [Utils.group_by_key(node.nested_nodes.flat_map(&:render))].compact
+        @nodes = [Utils.group_by_key(node.nested_nodes.map(&:render))].compact
 
         if @nodes.empty?
           render_empty(node)
