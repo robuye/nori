@@ -15,7 +15,7 @@ class Nori
         end
 
         def start_element(name, attrs = [])
-          stack.push Nodes::Node.new(name, Hash[*attrs.flatten], options)
+          stack.push XmlUtilityNode.new(name, Hash[*attrs.flatten], options)
         end
 
         def end_element(name)

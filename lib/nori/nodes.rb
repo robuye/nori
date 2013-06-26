@@ -1,5 +1,3 @@
-require "nori/nodes/node"
-
 require "nori/nodes/base64_node"
 require "nori/nodes/false_node"
 require "nori/nodes/true_node"
@@ -15,8 +13,6 @@ require "nori/nodes/nil_node"
 require "nori/nodes/string_node"
 require "nori/nodes/text_node"
 require "nori/nodes/time_node"
-
-require "nori/nodes/value_node_factory"
 
 module Nodes
 end

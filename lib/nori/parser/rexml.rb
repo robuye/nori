@@ -22,7 +22,7 @@ class Nori
           when :end_doctype, :start_doctype
             # do nothing
           when :start_element
-            stack.push Nodes::Node.new(event[1], event[2], options)
+            stack.push XmlUtilityNode.new(event[1], event[2], options)
           when :end_element
             if stack.size > 1
               last = stack.pop

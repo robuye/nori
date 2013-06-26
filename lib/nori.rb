@@ -6,7 +6,9 @@ require 'stringio'
 
 require "nori/version"
 require "nori/core_ext"
+require "nori/xml_utility_node"
 require "nori/nodes"
+require "nori/value_node_factory"
 
 require "nori/utils"
 

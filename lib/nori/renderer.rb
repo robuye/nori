@@ -30,7 +30,7 @@ class Nori
         #this is special case when node has no content but has type specified
         #we try to cast empty value into this type
         elsif node.attributes['type']
-          { node.name => Nodes::ValueNodeFactory.build('', node.attributes, node.options).render }
+          { node.name => ValueNodeFactory.build('', node.attributes, node.options).render }
         else
           { node.name => node.render_attributes }
         end
@@ -57,7 +57,7 @@ class Nori
       def render(node)
         inner_html = node.nested_nodes.join
 
-        { node.name => Nodes::ValueNodeFactory.build(inner_html, node.attributes, node.options).render }
+        { node.name => ValueNodeFactory.build(inner_html, node.attributes, node.options).render }
       end
     end
 
