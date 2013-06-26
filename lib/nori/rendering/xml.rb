@@ -24,6 +24,7 @@ class Nori
 
         #this is special case when node has NIL type. Source:
         #See: http://stackoverflow.com/questions/7238254/xml-what-is-this-null-or-empty-element
+        #we loose attributes here, this behavior is described in specs #FIXME
         if nil_att
           @node.attributes.delete("#{nil_att[:namespace]}#{nil_att[:name]}")
           { @node.name => Nodes::NilNode.new(nil, {}, @node.options).render }

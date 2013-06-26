@@ -12,9 +12,10 @@ class Nori
     end
 
     def undasherize_keys(hash)
-      result = {}
-      hash.keys.each {|key| result[key.tr('-', '_')] = hash[key]}
-      result
+      hash.inject({}) do |memo, (k,v)|
+        memo[k.tr('-', '_')] = v
+        memo
+      end
     end
 
     def group_by_key(collection)

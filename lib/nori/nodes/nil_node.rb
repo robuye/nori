@@ -14,6 +14,8 @@ class Nori
         true
       end
 
+      #this is current behavior described by specs, its not really a nil node
+      #if we render attributes #FIXME
       def render
         attributes.empty? ? self : Utils.render_attributes(attributes)
       end
