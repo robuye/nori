@@ -4,15 +4,15 @@ require "time"
 require "bigdecimal"
 require 'stringio'
 
-require "nori/version"
 require "nori/core_ext"
-require "nori/xml_utility_node"
+require "nori/renderable"
 require "nori/nodes"
 require "nori/value_node_factory"
-
+require "nori/rendering"
 require "nori/utils"
+require "nori/xml_utility_node"
 
-require "nori/renderer"
+require "nori/version"
 
 class Nori
   def self.hash_key(name, options = {})

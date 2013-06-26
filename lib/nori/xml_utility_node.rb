@@ -1,6 +1,7 @@
 class Nori
   class XmlUtilityNode
-    attr_reader :name, :attributes, :nested_nodes, :value, :options
+    include Nori::Renderable
+    attr_reader :name, :attributes, :nested_nodes, :options
 
     def initialize(name, attributes = {}, options = {})
       @options = options
@@ -16,7 +17,7 @@ class Nori
     end
 
     def add_child(node)
-      @composite_num = @composite_num + 1
+      @composite_num += 1
       nested_nodes << node
     end
 
@@ -26,35 +27,9 @@ class Nori
       if text.strip.length > 0
         add_child( ValueNodeFactory.build(text, attributes, options) )
 
-        @text_num = @text_num + 1
-        @composite_num = @composite_num - 1
+        @text_num += 1
+        @composite_num -= 1
       end
-    end
-
-    def render
-      engine.render(self)
-    end
-
-    #copy of Utils (used in NilNode aswell)
-    def render_attributes
-      hash = attributes.inject({}) do |memo, (k,v)|
-        memo[Utils.convert_attribute_name("@#{k}", options[:convert_tags_to])] = v
-        memo
-      end
-
-      hash.empty? ? nil : hash
-    end
-
-    def to_hash
-      render
-    end
-
-    def to_s
-      string = "<#{name}#{attributes.to_xml_attributes}>"
-      nested_nodes.each do |n|
-        string << n.to_s
-      end
-      string << "</#{name}>"
     end
 
     private
@@ -69,11 +44,11 @@ class Nori
       #
       #REXML parses this as one object
       if (@text_num > 0 && @composite_num > 0) || (@text_num > 1)
-        Nori::RenderEngine::HTML 
+        Rendering::HTML.new(self)
       elsif (attributes['type'] == 'array')
-        Nori::RenderEngine::Array
+        Rendering::Array.new(self)
       else
-        Nori::RenderEngine::XML
+        Rendering::XML.new(self)
       end
     end
   end
