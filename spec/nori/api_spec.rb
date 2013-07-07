@@ -28,6 +28,14 @@ describe Nori do
       expect { Nori.new(:invalid => true) }.
         to raise_error(ArgumentError, /Spurious options: \[:invalid\]/)
     end
+
+    it "accepts block to setup config values" do
+      nori = Nori.new do |conf|
+        conf.advanced_typecasting = false
+      end
+
+      nori.config.advanced_typecasting.should be_false
+    end
   end
 
   context ".new with :strip_namespaces" do

@@ -23,6 +23,7 @@ class Nori
 
   def initialize(options = {})
     @config = Config.new(options)
+    yield @config if block_given?
   end
 
   def find(hash, *path)
