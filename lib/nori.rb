@@ -11,17 +11,11 @@ require "nori/value_node_factory"
 require "nori/rendering"
 require "nori/utils"
 require "nori/xml_utility_node"
+require "nori/middleware"
 
 require "nori/version"
 
 class Nori
-  def self.hash_key(name, options = {})
-    name = name.tr("-", "_")
-    name = name.split(":").last if options[:strip_namespaces]
-    name = options[:convert_tags_to].call(name) if options[:convert_tags_to].respond_to? :call
-    name
-  end
-
   PARSERS = { :rexml => "REXML", :nokogiri => "Nokogiri" }
 
   def initialize(options = {})
@@ -40,8 +34,7 @@ class Nori
   def find(hash, *path)
     return hash if path.empty?
 
-    key = path.shift
-    key = self.class.hash_key(key, @options)
+    key = Middleware.new(@options).process_tag(path.shift)
 
     return nil unless hash.include? key
     find(hash[key], *path)

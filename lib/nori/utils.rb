@@ -11,11 +11,17 @@ class Nori
       hash.empty? ? nil : hash
     end
 
-    def undasherize_keys(hash)
-      hash.inject({}) do |memo, (k,v)|
-        memo[k.tr('-', '_')] = v
-        memo
+    def undasherize_hash
+      lambda do |hash|
+        hash.inject({}) do |memo, (k,v)|
+          memo[undasherize.call(k)] = v
+          memo
+        end
       end
+    end
+
+    def undasherize
+      lambda {|name| name.tr('-', '_') }
     end
 
     def group_by_key(collection)
@@ -24,15 +30,19 @@ class Nori
       end
     end
 
-    def remove_namespace_attributes!(attributes)
-      attributes.keys.each do |key|
-        attributes.delete(key) if key[/\A(xmlns|xsi)/]
+    def delete_namespace_attributes
+      lambda do |attributes|
+        attributes.delete_if {|k,v| k[/\A(xmlns|xsi)/]}
       end
     end
 
     def convert_attribute_name(attribute, convert_proc=nil)
       return attribute unless convert_proc
       convert_proc.call(attribute)
+    end
+
+    def strip_namespaces
+      lambda {|input| input.split(':').last }
     end
 
     # make namespaces easier available

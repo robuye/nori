@@ -5,15 +5,13 @@ class Nori
 
     def initialize(name, attributes = {}, options = {})
       @options = options
-      @name = Nori.hash_key(name, options) #DRY it (see #undesherize_attributes)
+      @name = name
+      @attributes = attributes
+
       @nested_nodes = []
-      @attributes = Utils.undasherize_keys(attributes)
       
-      #keep track on number of nodes to choose whatever we should switch rendering engine
       @composite_num = 0
       @text_num  = 0
-
-      Utils.remove_namespace_attributes!(@attributes) if @options[:delete_namespace_attributes]
     end
 
     def add_child(node)
@@ -22,7 +20,6 @@ class Nori
     end
 
     # convert text inside tag to value node and add to nested nodes
-    # mark this node as containing text value to render using different engine
     def add_text(text)
       if text.strip.length > 0
         add_child( ValueNodeFactory.build(text, attributes, options) )
@@ -42,7 +39,8 @@ class Nori
       # "Characters read between a tag. This method might be called multiple
       #  times given one contiguous string of characters."
       #
-      #REXML parses this as one object
+      #REXML parses this as one object, it may cause different results
+
       if (@text_num > 0 && @composite_num > 0) || (@text_num > 1)
         Rendering::HTML.new(self)
       elsif (attributes['type'] == 'array')

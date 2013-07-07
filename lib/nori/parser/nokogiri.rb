@@ -14,8 +14,15 @@ class Nori
           @stack ||= []
         end
 
+        def middleware
+          @middleware ||= Middleware.new(options)
+        end
+
         def start_element(name, attrs = [])
-          stack.push XmlUtilityNode.new(name, Hash[*attrs.flatten], options)
+          tag = middleware.process_tag(name)
+          attributes = middleware.process_attributes(Hash[*attrs.flatten])
+
+          stack.push XmlUtilityNode.new(tag, attributes, options)
         end
 
         def end_element(name)
@@ -30,7 +37,6 @@ class Nori
         end
 
         alias cdata_block characters
-
       end
 
       def self.parse(xml, options)
@@ -40,7 +46,6 @@ class Nori
         parser.parse xml
         document.stack.length > 0 ? document.stack.pop.to_hash : {}
       end
-
     end
   end
 end

@@ -13,6 +13,7 @@ class Nori
       def self.parse(xml, options)
         stack = []
         parser = ::REXML::Parsers::BaseParser.new(xml)
+        middleware = Middleware.new(options)
 
         while true
           event = unnormalize(parser.pull)
@@ -22,7 +23,10 @@ class Nori
           when :end_doctype, :start_doctype
             # do nothing
           when :start_element
-            stack.push XmlUtilityNode.new(event[1], event[2], options)
+            tag = middleware.process_tag(event[1])
+            attributes = middleware.process_attributes(event[2])
+
+            stack.push XmlUtilityNode.new(tag, attributes, options)
           when :end_element
             if stack.size > 1
               last = stack.pop
