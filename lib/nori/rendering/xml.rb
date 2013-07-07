@@ -1,8 +1,9 @@
 class Nori
   module Rendering
     class XML
-      def initialize(node)
+      def initialize(node, config)
         @node = node
+        @config = config
       end
 
       def render
@@ -24,15 +25,17 @@ class Nori
 
         #this is special case when node has NIL type. Source:
         #See: http://stackoverflow.com/questions/7238254/xml-what-is-this-null-or-empty-element
-        #we loose attributes here, this behavior is described in specs #FIXME
+        #we loose attributes here, this behavior is described in specs, possibly a bug #FIXME
         if nil_att
           @node.attributes.delete("#{nil_att[:namespace]}#{nil_att[:name]}")
-          { @node.name => Nodes::NilNode.new(nil, {}, @node.options).render }
+          nil_node = Nodes::NilNode.new(nil, {})
+          nil_node.config = @config
+          { @node.name => nil_node.render }
 
         #this is special case when node has no content but has type specified
         #we try to cast empty value into this type
         elsif @node.attributes['type']
-          { @node.name => ValueNodeFactory.build('', @node.attributes, @node.options).render }
+          { @node.name => ValueNodeFactory.build('', @node.attributes, @config).render }
         else
           { @node.name => @node.render_attributes }
         end

@@ -3,10 +3,9 @@ class Nori
     class StringNode < DelegateClass(String)
       attr_reader :value, :attributes
 
-      def initialize(value, attributes, opts={})
+      def initialize(value, attributes)
         @value = value.to_s.strip
         @attributes = attributes
-        @options = opts
         super(@value)
       end
 

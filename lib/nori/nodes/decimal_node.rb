@@ -3,10 +3,9 @@ class Nori
     class DecimalNode < DelegateClass(BigDecimal)
       attr_reader :value, :attributes
 
-      def initialize(value, attributes, opts={})
+      def initialize(value, attributes)
         @value = value
         @attributes = attributes
-        @options = opts
         super(BigDecimal.new(value))
       end
 

@@ -3,16 +3,15 @@ class Nori
     class TextNode < DelegateClass(String)
       attr_reader :value, :attributes
 
-      def initialize(value, attributes, opts={})
+      def initialize(value, attributes)
         @value = value
         @attributes = attributes
-        @options = opts
         super(@value)
       end
 
       def render
-        if @value.length == 0
-          NilNode.new(@value, @attributes, @options).render
+        if value.length == 0
+          NilNode.new(value, attributes).render
         else
           self
         end

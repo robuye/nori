@@ -1,10 +1,10 @@
 class Nori
   class XmlUtilityNode
     include Nori::Renderable
-    attr_reader :name, :attributes, :nested_nodes, :options
+    attr_reader :name, :attributes, :nested_nodes, :config
 
-    def initialize(name, attributes = {}, options = {})
-      @options = options
+    def initialize(name, attributes = {}, config)
+      @config = config
       @name = name
       @attributes = attributes
 
@@ -22,7 +22,7 @@ class Nori
     # convert text inside tag to value node and add to nested nodes
     def add_text(text)
       if text.strip.length > 0
-        add_child( ValueNodeFactory.build(text, attributes, options) )
+        add_child( ValueNodeFactory.build(text, attributes, config) )
 
         @text_num += 1
         @composite_num -= 1
@@ -42,11 +42,11 @@ class Nori
       #REXML parses this as one object, it may cause different results
 
       if (@text_num > 0 && @composite_num > 0) || (@text_num > 1)
-        Rendering::HTML.new(self)
+        Rendering::HTML.new(self, config)
       elsif (attributes['type'] == 'array')
-        Rendering::Array.new(self)
+        Rendering::Array.new(self, config)
       else
-        Rendering::XML.new(self)
+        Rendering::XML.new(self, config)
       end
     end
   end

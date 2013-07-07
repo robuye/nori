@@ -20,17 +20,17 @@ class Nori
     XS_BOOLEAN = /\A(true|false)\Z/
 
 
-    def self.build(value, attrs, opts = {})
+    def self.build(value, attrs, config)
       type = TYPECASTS[attrs['type']] ?
         attrs.delete('type') : attrs['type']
 
-      if opts[:advanced_typecasting]
-        (TYPECASTS[type] || guess_type(value)).new(value, attrs, opts)
+      if config.advanced_typecasting
+        (TYPECASTS[type] || guess_type(value)).new(value, attrs)
       else
-        (TYPECASTS[type] || Nodes::TextNode).new(value, attrs, opts)
+        (TYPECASTS[type] || Nodes::TextNode).new(value, attrs)
       end
     rescue
-      Nodes::TextNode.new(value, attrs, opts)
+      Nodes::TextNode.new(value, attrs)
     end
 
     def self.guess_type(value)

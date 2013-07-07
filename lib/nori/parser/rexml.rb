@@ -10,10 +10,10 @@ class Nori
     # REXML pull parser.
     module REXML
 
-      def self.parse(xml, options)
+      def self.parse(xml, config)
         stack = []
         parser = ::REXML::Parsers::BaseParser.new(xml)
-        middleware = Middleware.new(options)
+        middleware = config.middleware
 
         while true
           event = unnormalize(parser.pull)
@@ -26,7 +26,7 @@ class Nori
             tag = middleware.process_tag(event[1])
             attributes = middleware.process_attributes(event[2])
 
-            stack.push XmlUtilityNode.new(tag, attributes, options)
+            stack.push XmlUtilityNode.new(tag, attributes, config)
           when :end_element
             if stack.size > 1
               last = stack.pop

@@ -7,8 +7,8 @@ class Nori
       TRUE_REGEX = /\A(true)|1\Z/
       FALSE_REGEX = /\A(false)|0\Z/
 
-      def self.new(value, attributes, opts={})
-        klass(value.downcase.strip).new(value, attributes, opts)
+      def self.new(value, attributes)
+        klass(value.downcase.strip).new(value, attributes)
       end
 
       def self.klass(value)

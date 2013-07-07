@@ -3,7 +3,7 @@ class Nori
     #copy of Utils (used in NilNode aswell), FIXME
     def render_attributes
       hash = attributes.inject({}) do |memo, (k,v)|
-        memo[Utils.convert_attribute_name("@#{k}", options[:convert_tags_to])] = v
+        memo[Utils.convert_attribute_name("@#{k}", config.convert_tags_to)] = v
         memo
       end
 

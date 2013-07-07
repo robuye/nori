@@ -1,8 +1,9 @@
 class Nori
   class Middleware
     attr_accessor :tag_steps, :attribute_steps
-    def initialize(opts={})
-      @options = opts
+
+    def initialize(config)
+      @config = config
       @tag_steps = []
       @attribute_steps = []
 
@@ -19,12 +20,16 @@ class Nori
 
     private
 
+    def config
+      @config
+    end
+
     def load_default_steps
       tag_steps << Utils.undasherize
-      tag_steps << @options[:convert_tags_to] if @options[:convert_tags_to]
-      tag_steps << Utils.strip_namespaces if @options[:strip_namespaces]
+      tag_steps << config.convert_tags_to if config.convert_tags_to
+      tag_steps << Utils.strip_namespaces if config.strip_namespaces
 
-      attribute_steps << Utils.delete_namespace_attributes if @options[:delete_namespace_attributes]
+      attribute_steps << Utils.delete_namespace_attributes if config.delete_namespace_attributes
       attribute_steps << Utils.undasherize_hash
     end
   end

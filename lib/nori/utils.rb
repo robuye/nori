@@ -2,9 +2,9 @@ class Nori
   module Utils
     extend self
 
-    def render_attributes(attributes, options={})
+    def render_attributes(attributes, config)
       hash = attributes.inject({}) do |memo, (k,v)|
-        memo[Utils.convert_attribute_name("@#{k}", options[:convert_tags_to])] = v
+        memo[Utils.convert_attribute_name("@#{k}", config.convert_tags_to)] = v
         memo
       end
 

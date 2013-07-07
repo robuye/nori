@@ -3,10 +3,9 @@ class Nori
     class TrueNode < DelegateClass(TrueClass)
       attr_reader :value, :attributes
 
-      def initialize(value, attributes, opts={})
+      def initialize(value, attributes)
         @value = value
         @attributes = attributes
-        @options = opts
         super(true)
       end
 

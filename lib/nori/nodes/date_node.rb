@@ -3,10 +3,9 @@ class Nori
     class DateNode < DelegateClass(Date)
       attr_reader :value, :attributes
 
-      def initialize(value, attributes, opts={})
+      def initialize(value, attributes)
         @value = value
         @attributes = attributes
-        @options = opts
         super(Date.parse(value))
       end
 

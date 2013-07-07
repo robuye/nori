@@ -1,7 +1,7 @@
 class Nori
   module Rendering
     class Array
-      def initialize(node)
+      def initialize(node, config=nil)
         @node = node
       end
 
