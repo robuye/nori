@@ -17,8 +17,8 @@ class Nori
       #     #=> "name=Bob&address[city]=Ruby Central&address[phones][]=111-111-1111&address[phones][]=222-222-2222&address[street]=111 Ruby Ave."
       def to_params
         params = self.map { |k, v| normalize_param(k,v) }.join
-        params.chop! # trailing &
-        params
+        params.chop # trailing &
+        #params
       end
 
       # @param key<Object> The key for the param.
@@ -59,7 +59,7 @@ class Nori
       #     #=> 'one="1" two="TWO"'
       def to_xml_attributes
         map do |k, v|
-          %{#{k.to_s.snakecase.sub(/^(.{1,1})/) { |m| m.downcase }}="#{v}"}
+          %{#{Utils.snakecase(k.to_s).sub(/^(.{1,1})/) { |m| m.downcase }}="#{v}"}
         end.join(' ')
       end
 

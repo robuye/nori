@@ -1,17 +1,11 @@
 class Nori
   module Renderable
-    #copy of Utils (used in NilNode aswell), FIXME
     def render_attributes
-      hash = attributes.inject({}) do |memo, (k,v)|
-        memo[Utils.convert_attribute_name("@#{k}", config.convert_tags_to)] = v
-        memo
-      end
-
-      hash.empty? ? nil : hash
+      Utils.render_attributes(attributes, config)
     end
     
     def to_s
-      string = "<#{name}#{attributes.to_xml_attributes}>"
+      string = "<#{name}#{Utils.to_xml_attributes(attributes)}>"
       nested_nodes.each do |n|
         string << n.to_s
       end

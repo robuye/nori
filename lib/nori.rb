@@ -4,7 +4,6 @@ require "time"
 require "bigdecimal"
 require 'stringio'
 
-require "nori/core_ext"
 require "nori/renderable"
 require "nori/nodes"
 require "nori/value_node_factory"
