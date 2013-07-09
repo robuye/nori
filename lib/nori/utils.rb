@@ -11,17 +11,8 @@ class Nori
       hash.empty? ? nil : hash
     end
 
-    def undasherize_hash
-      lambda do |hash|
-        hash.inject({}) do |memo, (k,v)|
-          memo[undasherize.call(k)] = v
-          memo
-        end
-      end
-    end
-
-    def undasherize
-      lambda {|name| name.tr('-', '_') }
+    def undasherize(input)
+      input.tr('-', '_')
     end
 
     def snakecase(string)
@@ -39,16 +30,6 @@ class Nori
       end
     end
 
-    def delete_namespace_attributes
-      lambda do |attributes|
-        attributes.delete_if {|k,v| k[/\A(xmlns|xsi)/]}
-      end
-    end
-
-    def strip_namespaces
-      lambda {|input| input.split(':').last }
-    end
-
     # make namespaces easier available
     def filter_namespaces(attributes)
       regex = /\A(.*:)?(.*)\Z/
@@ -63,11 +44,6 @@ class Nori
       end
     end
 
-    def to_xml_attributes(hash)
-      hash.map do |k, v|
-        %{#{Utils.snakecase(k.to_s).sub(/^(.{1,1})/) { |m| m.downcase }}="#{v}"}
-      end.join(' ')
-    end
 
     private
 
@@ -78,31 +54,6 @@ class Nori
 
     def to_params(hash)
       hash.map {|k, v| normalize_param(k,v) }.join.chop
-    end
-
-    def normalize_param(key, value)
-      param = ''
-      stack = []
-
-      if value.is_a?(Array)
-        param << value.map { |element| normalize_param("#{key}[]", element) }.join
-      elsif value.is_a?(Hash)
-        stack << [key,value]
-      else
-        param << "#{key}=#{URI.encode(value.to_s, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))}&"
-      end
-
-      stack.each do |parent, hash|
-        hash.each do |key, value|
-          if value.is_a?(Hash)
-            stack << ["#{parent}[#{key}]", value]
-          else
-            param << normalize_param("#{parent}[#{key}]", value)
-          end
-        end
-      end
-
-      param
     end
   end
 end
