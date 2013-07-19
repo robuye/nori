@@ -241,7 +241,7 @@ describe Nori do
 
       it "should typecast a datetime" do
         xml = "<tag type='datetime'>2007-12-31 10:32</tag>"
-        parse(xml)['tag'].should == DateTime.parse( '2007-12-31 10:32' )
+        parse(xml)['tag'].should == DateTime.parse( '2007-12-31 10:32'.to_time(:local).to_s )
       end
 
       it "should typecast a date" do
@@ -324,7 +324,7 @@ describe Nori do
             "age"       => 35,
             "name"      => "Home Simpson",
             "dob"       => Date.parse('1988-01-01'),
-            "joined_at" => DateTime.parse("2000-04-28 23:01"),
+            "joined_at" => DateTime.parse("2000-04-28 23:01".to_time(:local).to_s),
             "is_cool"   => true
           }
         }
