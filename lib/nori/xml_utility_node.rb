@@ -9,7 +9,7 @@ class Nori
       @attributes = attributes
 
       @nested_nodes = []
-      
+
       @composite_num = 0
       @text_num  = 0
     end

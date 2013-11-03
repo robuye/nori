@@ -3,12 +3,14 @@ class Nori
     def render_attributes
       Utils.render_attributes(attributes, config)
     end
-    
+
     def to_s
-      string = "<#{name}#{to_xml_attributes(attributes)}>"
-      nested_nodes.each do |n|
-        string << n.to_s
-      end
+      attr = to_xml_attributes(attributes)
+
+      #join only if attributes are not empty, otherwise it would
+      #insert :space: before closing bracket
+      string = "<#{attr.any? ? [name, attr].join(' ') : name}>"
+      nested_nodes.each {|n| string << n.to_s }
       string << "</#{name}>"
     end
 
@@ -23,7 +25,7 @@ class Nori
     def to_xml_attributes(hash)
       hash.map do |k, v|
         %{#{Utils.snakecase(k.to_s).sub(/^(.{1,1})/) { |m| m.downcase }}="#{v}"}
-      end.join(' ')
+      end
     end
 
     def normalize_param(key, value)
