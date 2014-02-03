@@ -6,7 +6,7 @@ class Nori
       end
 
       def render
-        @node.attributes.delete('type')
+        @node.attributes.raw.delete('type')
 
         {
           @node.name => @node.nested_nodes.map do |nested|

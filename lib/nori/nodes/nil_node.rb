@@ -20,7 +20,7 @@ class Nori
       #this is current behavior described by specs, its not really a nil node
       #if we render attributes #FIXME
       def render
-        attributes.empty? ? self : Utils.render_attributes(attributes, config)
+        attributes.empty? ? self : Attributes.new(attributes, config).render
       end
 
       private

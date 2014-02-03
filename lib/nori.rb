@@ -3,7 +3,9 @@ require "date"
 require "time"
 require "bigdecimal"
 require 'stringio'
+require "middleware"
 
+require "nori/attributes"
 require "nori/renderable"
 require "nori/nodes"
 require "nori/value_node_factory"
@@ -28,7 +30,8 @@ class Nori
   def find(hash, *path)
     return hash if path.empty?
 
-    key = Middleware.new(config).process_tag(path.shift)
+    key = path.shift
+    config.middleware.tags.call(key)
 
     return nil unless hash.include? key
     find(hash[key], *path)

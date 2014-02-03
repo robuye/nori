@@ -1,14 +1,41 @@
+require 'facets/hash/update_keys'
+
 class Nori
   class Middleware
     module Tags
-      extend self
+      class Undasherize
+        def initialize(app)
+          @app = app
+        end
 
-      def undasherize
-        lambda {|tag| Utils.undasherize(tag)}
+        def call(env)
+          undasherize(env)
+
+          @app.call(env)
+        end
+
+        private
+
+        def undasherize(string)
+          string.tr!('-', '_')
+        end
       end
 
-      def strip_namespaces
-        lambda {|input| input.split(':').last }
+      class StripNamespace
+        def initialize(app)
+          @app = app
+        end
+
+        def call(env)
+          strip_namespace!(env)
+          @app.call(env)
+        end
+
+        private
+
+        def strip_namespace!(input)
+          input.slice!(/.*:/)
+        end
       end
     end
   end

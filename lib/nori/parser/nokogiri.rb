@@ -6,6 +6,7 @@ class Nori
     # = Nori::Parser::Nokogiri
     #
     # Nokogiri SAX parser.
+
     module Nokogiri
       class Document < ::Nokogiri::XML::SAX::Document
         attr_accessor :config
@@ -19,8 +20,11 @@ class Nori
         end
 
         def start_element(name, attrs = [])
-          tag = middleware.process_tag(name)
-          attributes = middleware.process_attributes(Hash[*attrs.flatten])
+          tag = name
+          attributes = Hash[*attrs.flatten]
+
+          middleware.attributes.call(attributes)
+          middleware.tags.call(tag)
 
           stack.push XmlUtilityNode.new(tag, attributes, config)
         end

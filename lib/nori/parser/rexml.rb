@@ -23,8 +23,11 @@ class Nori
           when :end_doctype, :start_doctype
             # do nothing
           when :start_element
-            tag = middleware.process_tag(event[1])
-            attributes = middleware.process_attributes(event[2])
+            tag = event[1]
+            attributes = event[2]
+
+            middleware.attributes.call(attributes)
+            middleware.tags.call(tag)
 
             stack.push XmlUtilityNode.new(tag, attributes, config)
           when :end_element

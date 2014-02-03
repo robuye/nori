@@ -63,16 +63,16 @@ describe Nori do
     it "converts all tags by a given formula" do
       xml = '<userResponse id="1"><accountStatus>active</accountStatus></userResponse>'
 
-      snakecase_symbols = lambda { |tag| Nori::Utils.snakecase(tag).to_sym }
-      nori = nori(:convert_tags_to => snakecase_symbols)
+      upcase = lambda { |tag| tag.upcase! }
+      nori = nori(:convert_tags_to => upcase)
 
-      nori.parse(xml).should == { :user_response => { :@id => "1", :account_status => "active" } }
+      nori.parse(xml).should == { 'USERRESPONSE' => { '@ID'=> "1", 'ACCOUNTSTATUS'=> "active" } }
     end
   end
 
 	context '#find' do
 		before do
-      upcase = lambda { |tag| tag.upcase }
+      upcase = lambda { |tag| tag.upcase! }
 			@nori = nori(:convert_tags_to => upcase)
 
       xml = '<userResponse id="1"><accountStatus>active</accountStatus></userResponse>'
