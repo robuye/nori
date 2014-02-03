@@ -2,19 +2,6 @@ class Nori
   module Utils
     extend self
 
-    def render_attributes(attributes, config)
-      hash = attributes.inject({}) do |memo, (k,v)|
-        memo[convert_attribute_name("@#{k}", config.convert_tags_to)] = v
-        memo
-      end
-
-      hash.empty? ? nil : hash
-    end
-
-    def undasherize(input)
-      input.tr('-', '_')
-    end
-
     def snakecase(string)
       string.gsub(/::/, '/').
         gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2').
@@ -44,13 +31,7 @@ class Nori
       end
     end
 
-
     private
-
-    def convert_attribute_name(attribute, convert_proc=nil)
-      return attribute unless convert_proc
-      convert_proc.call(attribute)
-    end
 
     def to_params(hash)
       hash.map {|k, v| normalize_param(k,v) }.join.chop

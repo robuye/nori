@@ -6,7 +6,7 @@ class Nori
     def initialize(name, attributes = {}, config)
       @config = config
       @name = name
-      @attributes = attributes
+      @attributes = Attributes.new(attributes, config)
 
       @nested_nodes = []
 
@@ -43,7 +43,7 @@ class Nori
 
       if (@text_num > 0 && @composite_num > 0) || (@text_num > 1)
         Rendering::HTML.new(self, config)
-      elsif (attributes['type'] == 'array')
+      elsif (attributes.raw['type'] == 'array')
         Rendering::Array.new(self, config)
       else
         Rendering::XML.new(self, config)

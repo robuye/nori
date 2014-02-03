@@ -21,16 +21,16 @@ class Nori
 
 
     def self.build(value, attrs, config)
-      type = TYPECASTS[attrs['type']] ?
-        attrs.delete('type') : attrs['type']
+      type = TYPECASTS[attrs.raw['type']] ?
+        attrs.raw.delete('type') : attrs.raw['type']
 
       if config.advanced_typecasting
-        (TYPECASTS[type] || guess_type(value)).new(value, attrs)
+        (TYPECASTS[type] || guess_type(value)).new(value, attrs.raw)
       else
-        (TYPECASTS[type] || Nodes::TextNode).new(value, attrs)
+        (TYPECASTS[type] || Nodes::TextNode).new(value, attrs.raw)
       end
     rescue
-      Nodes::TextNode.new(value, attrs)
+      Nodes::TextNode.new(value, attrs.raw)
     end
 
     def self.guess_type(value)
