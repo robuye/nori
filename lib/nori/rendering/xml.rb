@@ -37,7 +37,7 @@ class Nori
         elsif @node.attributes.raw['type']
           { @node.name => ValueNodeFactory.build('', @node.attributes, @config).render }
         else
-          { @node.name => @node.render_attributes }
+          { @node.name => @node.attributes.render }
         end
       end
 

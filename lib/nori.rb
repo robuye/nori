@@ -6,7 +6,6 @@ require 'stringio'
 require "middleware"
 
 require "nori/attributes"
-require "nori/renderable"
 require "nori/nodes"
 require "nori/value_node_factory"
 require "nori/rendering"
