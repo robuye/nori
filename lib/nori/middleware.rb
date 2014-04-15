@@ -10,20 +10,22 @@ class Nori
     end
 
     def tags(&block)
+      builder = ::Middleware::Builder.new
       if block_given?
-        @tags = block.call
+        @tags = block.call(builder)
       else
-        @tags = ::Middleware::Builder.new
+        @tags = builder
         legacy_config_tags_middleware.each {|m| @tags.use m}
       end
       @tags
     end
 
     def attributes(&block)
+      builder = ::Middleware::Builder.new
       if block_given?
-        @attributes = block.call
+        @attributes = block.call(builder)
       else
-        @attributes = ::Middleware::Builder.new
+        @attributes = builder
         legacy_config_attributes_middleware.each {|m| @attributes.use(m)}
       end
       @attributes
